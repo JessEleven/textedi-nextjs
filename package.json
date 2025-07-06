@@ -1,7 +1,7 @@
 {
   "name": "textedi-nextjs",
   "description": "A simple rich text editor.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 4757",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "4.1.11",
     "better-auth": "1.2.12",
+    "clsx": "^2.1.1",
     "dotenv": "17.0.1",
     "drizzle-orm": "0.44.2",
     "next": "15.3.5",

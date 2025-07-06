@@ -1,11 +1,17 @@
-import Image from 'next/image'
+import Nav from '@/components/nav'
 
 export default function HomePage () {
   return (
-    <main className='flex flex-col items-center justify-center mt-10 text-xl'>
-      <Image src='/logo.svg' alt='textedi logo' width={48} height={48} />
-      <h1>textedi</h1>
-      <p>A simple rich text editor.</p>
+    <main className='main-container'>
+      <div className='px-5 md:px-0'>
+        <Nav />
+        <div className='grid grid-cols-[1fr_2fr]'>
+          <h1 className='text-4xl font-bold'>Welcome to textedi</h1>
+          <div>
+            Content
+          </div>
+        </div>
+      </div>
     </main>
   )
 }

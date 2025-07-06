@@ -29,7 +29,7 @@ export default async function UserSession () {
           </a>
         </li>
 
-        {!session
+        {session
           ? (
             <>
               <li>

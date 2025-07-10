@@ -21,3 +21,8 @@
   @apply rounded-[5px] text-sm border border-neutral-600 hover:bg-neutral-500/15
   transition-colors duration-300 ease-in-out leading-3.5 cursor-pointer
 }
+
+.gradient-transition {
+  transition: all 400ms ease-in-out;
+}
+

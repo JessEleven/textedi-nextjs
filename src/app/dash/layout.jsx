@@ -1,17 +1,15 @@
-'use client'
-
-import { useState } from 'react'
 import Sidebar from './components-dash/sidebar'
+import { SidebarProvider } from './context/sidebar-context'
 
 export default function DashLayout ({ children }) {
-  const [collapsed, setCollapsed] = useState(false)
-
   return (
-    <div className='flex h-screen'>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div className='flex-1 p-5 overflow-auto'>
-        {children}
+    <SidebarProvider>
+      <div className='flex h-screen'>
+        <Sidebar />
+        <div className='flex-1 p-5 overflow-auto'>
+          {children}
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }

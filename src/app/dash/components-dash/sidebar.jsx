@@ -1,11 +1,13 @@
+'use client'
+
 import { BtnIcon } from '@/components/ui/button-icons'
 import NavItem from './nav-item'
 import { LayoutSidebarIcon, LayoutSidebarTwoIcon } from '../assets/dash-icons'
 import AppLogo from '@/components/ui/app-logo'
+import { useSidebar } from '../context/sidebar-context'
 
-export default function Sidebar ({ collapsed, setCollapsed }) {
-  const minWiht = 'w-[48px]'
-  const baseWidth = collapsed ? minWiht : 'w-[288px]'
+export default function Sidebar () {
+  const { collapsed, setCollapsed, minWiht, baseWidth } = useSidebar()
 
   return (
     <aside className={`${baseWidth} flex flex-col h-full border-r border-r-neutral-600 transition-all duration-400`}>
@@ -26,7 +28,7 @@ export default function Sidebar ({ collapsed, setCollapsed }) {
           />
         </div>
 
-        <NavItem collapsed={collapsed} />
+        <NavItem />
       </div>
     </aside>
   )

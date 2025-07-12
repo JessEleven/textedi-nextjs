@@ -47,7 +47,7 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
 })
 
-export const document = pgTable('document', {
+export const record = pgTable('record', {
   id: text('id').primaryKey(),
   title: text('title', { length: 50 }),
   content: text('content'),
@@ -57,12 +57,12 @@ export const document = pgTable('document', {
   userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' })
 })
 
-export const schema = { user, session, account, verification, document }
+export const schema = { user, session, account, verification, record }
 
 export const usersRelated = relations(user, ({ many }) => ({
-  document: many(document)
+  record: many(record)
 }))
 
-export const documentRelated = relations(document, ({ one }) => ({
-  user: one(user, { fields: [document.userId], references: [user.id] })
+export const recordRelated = relations(record, ({ one }) => ({
+  user: one(user, { fields: [record.userId], references: [user.id] })
 }))

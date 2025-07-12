@@ -1,7 +1,7 @@
 {
   "name": "textedi-nextjs",
   "description": "A simple rich text editor.",
-  "version": "0.6.2",
+  "version": "0.7.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 4757",
@@ -11,7 +11,7 @@
     "secret": "npx @better-auth/cli@latest secret",
     "db:schema": "npx @better-auth/cli generate --config src/libs/auth.js",
     "db:studio": "npx drizzle-kit studio",
-    "db:push": "npx drizzle-kit push"
+    "db:push": "npx drizzle-kit push && npx drizzle-kit generate"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.1.11",

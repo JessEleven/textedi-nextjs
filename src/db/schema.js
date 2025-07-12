@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
@@ -46,4 +47,22 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
 })
 
-export const schema = { user, session, account, verification }
+export const document = pgTable('document', {
+  id: text('id').primaryKey(),
+  title: text('title', { length: 50 }),
+  content: text('content'),
+  favorite: boolean('favorite').default(false).notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' })
+})
+
+export const schema = { user, session, account, verification, document }
+
+export const usersRelated = relations(user, ({ many }) => ({
+  document: many(document)
+}))
+
+export const documentRelated = relations(document, ({ one }) => ({
+  user: one(user, { fields: [document.userId], references: [user.id] })
+}))

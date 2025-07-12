@@ -41,4 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # In development
-/src/app/api/record/
+/src/libs/fetch-api/

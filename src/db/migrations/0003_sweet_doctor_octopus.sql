@@ -1,0 +1,1 @@
+ALTER TABLE "record" ALTER COLUMN "last_opened_at" SET NOT NULL;

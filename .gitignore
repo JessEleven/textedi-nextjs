@@ -42,3 +42,4 @@ next-env.d.ts
 
 # In development
 /src/app/dash/record/
+/src/app/api/recent-records/

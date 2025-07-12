@@ -52,6 +52,7 @@ export const record = pgTable('record', {
   title: text('title', { length: 50 }),
   content: text('content'),
   favorite: boolean('favorite').default(false).notNull(),
+  lastOpenedAt: timestamp('last_opened_at').notNull().defaultNow(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' })

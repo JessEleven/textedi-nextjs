@@ -1,7 +1,7 @@
 import { db } from '@/db/drizzle'
 import { record } from '@/db/schema'
 import { auth } from '@/libs/auth'
-import { nanoid } from 'nanoid'
+import { generateId } from '@/utils/generate-id'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -26,12 +26,11 @@ export async function POST (req) {
       title: record.title,
       createdAt: record.createdAt
     }
-    const rawId = nanoid(18)
-    const formattedId = rawId.match(/.{1,6}/g).join('-')
+    const nanoid = generateId()
 
     const result = await db.insert(record)
       .values({
-        id: formattedId,
+        id: nanoid,
         title,
         userId: user.id
       })

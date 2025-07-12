@@ -10,9 +10,9 @@ export default function Sidebar () {
   const { collapsed, setCollapsed, minWiht, baseWidth } = useSidebar()
 
   return (
-    <aside className={`${baseWidth} flex flex-col h-full border-r border-r-neutral-600 transition-all duration-400`}>
+    <aside className={`flex flex-col ${baseWidth} h-full text-neutral-300 border-r border-r-neutral-600 transition-all duration-400`}>
       <div className={`flex flex-col ${collapsed ? `items-center ${minWiht}` : 'px-2.5'}`}>
-        <div className='flex items-center justify-between mt-2.5'>
+        <div className='flex items-center justify-between mt-2.5 text-neutral-50'>
           {!collapsed && (
             <AppLogo
               display='flex'
@@ -28,6 +28,7 @@ export default function Sidebar () {
           />
         </div>
 
+        {/* For navigation of the options */}
         <NavItem />
       </div>
     </aside>

@@ -68,3 +68,94 @@ export const SettingsIcon = (props) => (
     <path d='M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0' />
   </svg>
 )
+
+export const FolderOpenIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-folder-open'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M5 19l2.757 -7.351a1 1 0 0 1 .936 -.649h12.307a1 1 0 0 1 .986 1.164l-.996 5.211a2 2 0 0 1 -1.964 1.625h-14.026a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v2' />
+  </svg>
+)
+
+export const FolderIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-folder'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2' />
+  </svg>
+)
+
+export const ChevronUpIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-up'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M6 15l6 -6l6 6' />
+  </svg>
+)
+
+export const ChevronDownIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-down'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M6 9l6 6l6 -6' />
+  </svg>
+)
+
+export const PlusIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-plus'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M12 5l0 14' />
+    <path d='M5 12l14 0' />
+  </svg>
+)

@@ -5,6 +5,11 @@
   @apply w-full mx-auto md:w-[600px] lg:w-[700px] xl:w-[1000px] 2xl:mx-[1200px]
 }
 
+/* For the dash and favorites pages */
+.card-container {
+  @apply w-full mx-auto md:w-[400px] lg:w-[500px] xl:w-[600px] 2xl:w-[700px]
+}
+
 /* Only for icons */
 .btn-border-icon {
   @apply p-[7px] rounded-[5px] border border-neutral-600 hover:bg-neutral-500/15 
@@ -26,3 +31,16 @@
   transition: all 400ms ease-in-out;
 }
 
+/* Custom scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #252525; /* text-neutral-500/15 */
+  border-radius: 8px
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}

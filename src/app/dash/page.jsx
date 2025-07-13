@@ -17,9 +17,26 @@ export default function DashPage () {
   const [total, setTotal] = useState(0)
   const [hasScrollbar, setHasScrollbar] = useState(false)
 
+  /** To place ?page=1&limit=10 in the url
+   * each time the /dash path is visited
+  */
+  useEffect(() => {
+    const page = searchParams.get('page')
+    const isLimited = searchParams.get('limit')
+
+    if (!page || !isLimited) {
+      const params = new URLSearchParams()
+      params.set('page', '1')
+      params.set('limit', '10')
+      route.replace(`/dash?${params.toString()}`)
+    }
+  }, [])
+
   const currentPage = parseInt(searchParams.get('page')) || 1
   const limit = parseInt(searchParams.get('limit')) || 10
+  const totalPages = Math.ceil(total / limit)
 
+  /* To get the data */
   useEffect(() => {
     (async () => {
       const res = await allRecords(currentPage, limit)
@@ -31,8 +48,7 @@ export default function DashPage () {
     })()
   }, [currentPage, limit])
 
-  const totalPages = Math.ceil(total / limit)
-
+  /* To view the paged url dash?page=1&limit=10 */
   const updateQueryParams = (newPage) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage)
@@ -40,6 +56,7 @@ export default function DashPage () {
     route.push(`/dash?${params.toString()}`)
   }
 
+  /* For the sidebar of the container */
   useEffect(() => {
     const el = scrollRef.current
     if (el && el.scrollHeight > el.clientHeight) {
@@ -91,7 +108,7 @@ export default function DashPage () {
                 <button
                   type='button'
                   aria-label='Star'
-                  className='btn-border-icon cursor-pointer'
+                  className='btn-border-icon'
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()

@@ -1,26 +1,25 @@
 'use client'
 
-import { allRecords } from '@/libs/fetch-api/record'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { FileTextIcon, StarIcon } from './assets/dash-icons'
+import { FileTextIcon, StarIcon } from '../assets/dash-icons'
 import dayjs from 'dayjs'
-import { toggleFavorite } from '@/libs/fetch-api/favorite-records'
-import { PgButton } from './components-dash/ui/pg-button'
+import { allFavoriteRecords, toggleFavorite } from '@/libs/fetch-api/favorite-records'
+import { PgButton } from '../components-dash/ui/pg-button'
 import { BtnBorderIcon } from '@/components/ui/button-icons'
 
-export default function DashPage () {
+export default function FavoritesPage () {
   const searchParams = useSearchParams()
   const route = useRouter()
   const scrollRef = useRef()
 
-  const [records, setRecords] = useState([])
+  const [favRecords, setFavRecords] = useState([])
   const [total, setTotal] = useState(0)
   const [hasScrollbar, setHasScrollbar] = useState(false)
 
   /** To place ?page=1&limit=10 in the url
-   * each time the /dash path is visited
+   * each time the /dash/favorites path is visited
   */
   useEffect(() => {
     const page = searchParams.get('page')
@@ -30,7 +29,7 @@ export default function DashPage () {
       const params = new URLSearchParams()
       params.set('page', '1')
       params.set('limit', '10')
-      route.replace(`/dash?${params.toString()}`)
+      route.replace(`/dash/favorites?${params.toString()}`)
     }
   }, [])
 
@@ -41,11 +40,11 @@ export default function DashPage () {
   /* To get the data */
   useEffect(() => {
     (async () => {
-      const res = await allRecords(currentPage, limit)
+      const res = await allFavoriteRecords(currentPage, limit)
 
       if (res.success) {
-        setRecords(res.results.data)
-        setTotal(res.results.total_records)
+        setFavRecords(res.results.data)
+        setTotal(res.results.total_favorite_records)
       }
     })()
   }, [currentPage, limit])
@@ -55,7 +54,7 @@ export default function DashPage () {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage)
     params.set('limit', limit)
-    route.push(`/dash?${params.toString()}`)
+    route.push(`/dash/favorites?${params.toString()}`)
   }
 
   /* For the sidebar of the container */
@@ -66,21 +65,21 @@ export default function DashPage () {
     } else {
       setHasScrollbar(false)
     }
-  }, [records])
+  }, [favRecords])
 
   /* To synchronize paging when toggle to favorite */
-  const fetchRecords = async () => {
+  const fetchFavoriteRecords = async () => {
     const newTotal = total - 1
     const newTotalPages = Math.ceil(newTotal / limit)
 
     if (currentPage > newTotalPages) {
       updateQueryParams(newTotalPages)
     } else {
-      const res = await allRecords(currentPage, limit)
+      const res = await allFavoriteRecords(currentPage, limit)
 
       if (res.success) {
-        setRecords(res.results.data)
-        setTotal(res.results.total_records)
+        setFavRecords(res.results.data)
+        setTotal(res.results.total_favorite_records)
       }
     }
   }
@@ -92,7 +91,7 @@ export default function DashPage () {
         className={`h-[400px] mt-7 space-y-2.5 overflow-y-auto scrollbar-custom 
         ${hasScrollbar ? 'pr-1.5' : ''}`}
       >
-        {records.map((item) => (
+        {favRecords.map((item) => (
           <Link key={item.id} href={`/dash/record/${item.id}`} className='block group'>
             <article className='flex items-center px-5 py-2.5 rounded-lg bg-neutral-500/15'>
               <div className='p-1.5 rounded-[5px] bg-stone-500/50'>
@@ -118,12 +117,12 @@ export default function DashPage () {
                       id: item.id,
                       favorite: item.favorite,
                       onSuccess: () => {
-                        setRecords((prev) => prev.filter((star) => star.id !== item.id))
-                        fetchRecords()
+                        setFavRecords((prev) => prev.filter((star) => star.id !== item.id))
+                        fetchFavoriteRecords()
                       }
                     })
                   }}
-                  icon={<StarIcon />}
+                  icon={<StarIcon className='text-yellow-400' />}
                 />
               </div>
             </article>

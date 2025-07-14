@@ -1,4 +1,4 @@
-import { HomeIcon, SettingsIcon } from '../assets/dash-icons'
+import { HomeIcon, SettingsIcon, StarIcon } from '../assets/dash-icons'
 import DocNav from './related-to-doc/doc-nav'
 import { Item } from './ui/item'
 
@@ -14,6 +14,13 @@ export default function NavItem () {
 
       {/* Navigation container */}
       <DocNav />
+
+      {/* Page navigation */}
+      <Item
+        href='/dash/favorites'
+        icon={<StarIcon />}
+        label='Favorites'
+      />
 
       {/* Page navigation */}
       <Item

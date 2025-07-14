@@ -38,3 +38,29 @@ export const craeteRecord = async (formData) => {
     }
   }
 }
+
+export const deleteRecord = async ({ id, onSuccess }) => {
+  try {
+    const res = await fetch('/api/record', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    })
+    const result = await res.json()
+    // console.log('Response from API', result)
+
+    if (!res.ok || !result.success) {
+      throw new Error(result.error || 'Failed to delete record')
+    }
+
+    if (onSuccess) onSuccess()
+
+    return result.data
+  } catch (error) {
+    // console.error('Error fetching delete record:', error)
+    return {
+      success: false,
+      error: error?.message || 'Unknown error'
+    }
+  }
+}

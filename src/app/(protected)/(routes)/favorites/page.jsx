@@ -19,7 +19,7 @@ export default function FavoritesPage () {
   const [hasScrollbar, setHasScrollbar] = useState(false)
 
   /** To place ?page=1&limit=10 in the url
-   * each time the /dash/favorites path is visited
+   * each time the /favorites path is visited
   */
   useEffect(() => {
     const page = searchParams.get('page')
@@ -49,7 +49,7 @@ export default function FavoritesPage () {
     })()
   }, [currentPage, limit])
 
-  /* To view the paged url dash?page=1&limit=10 */
+  /* To view the paged url favorites?page=1&limit=10 */
   const updateQueryParams = (newPage) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage)

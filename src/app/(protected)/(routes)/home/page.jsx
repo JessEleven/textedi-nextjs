@@ -1,10 +1,10 @@
 'use client'
 
-import { allRecords } from '@/libs/fetch-api/record'
+import { allRecords, deleteRecord } from '@/libs/fetch-api/record'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { FileTextIcon, StarIcon } from '../../assets/record-icons'
+import { FileTextIcon, StarIcon, TrashIcon } from '../../assets/record-icons'
 import dayjs from 'dayjs'
 import { toggleFavorite } from '@/libs/fetch-api/favorite-records'
 import { PgButton } from '../../record_components/ui/pg-button'
@@ -20,7 +20,7 @@ export default function HomePage () {
   const [hasScrollbar, setHasScrollbar] = useState(false)
 
   /** To place ?page=1&limit=10 in the url
-   * each time the /dash path is visited
+   * each time the /home path is visited
   */
   useEffect(() => {
     const page = searchParams.get('page')
@@ -50,7 +50,7 @@ export default function HomePage () {
     })()
   }, [currentPage, limit])
 
-  /* To view the paged url dash?page=1&limit=10 */
+  /* To view the paged url ?page=1&limit=10 */
   const updateQueryParams = (newPage) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage)
@@ -106,25 +106,44 @@ export default function HomePage () {
                   </p>
                 </div>
 
-                {/* Toggle to favorite */}
-                <BtnBorderIcon
-                  type='button'
-                  aria-label='Star'
-                  className='btn-border-icon'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    toggleFavorite({
-                      id: item.id,
-                      favorite: item.favorite,
-                      onSuccess: () => {
-                        setRecords((prev) => prev.filter((star) => star.id !== item.id))
-                        fetchRecords()
-                      }
-                    })
-                  }}
-                  icon={<StarIcon />}
-                />
+                <div className='flex items-center gap-x-2.5'>
+                  {/* Toggle to favorite */}
+                  <BtnBorderIcon
+                    type='button'
+                    aria-label='Star'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      toggleFavorite({
+                        id: item.id,
+                        favorite: item.favorite,
+                        onSuccess: () => {
+                          setRecords((prev) => prev.filter((star) => star.id !== item.id))
+                          fetchRecords()
+                        }
+                      })
+                    }}
+                    icon={<StarIcon />}
+                  />
+
+                  {/* To delete records */}
+                  <BtnBorderIcon
+                    type='button'
+                    ariaLabel='Trash'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      deleteRecord({
+                        id: item.id,
+                        onSuccess: () => {
+                          setRecords((prev) => prev.filter((trash) => trash.id !== item.id))
+                          fetchRecords()
+                        }
+                      })
+                    }}
+                    icon={<TrashIcon />}
+                  />
+                </div>
               </div>
             </article>
           </Link>

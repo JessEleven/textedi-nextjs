@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import { FileTextIcon, StarIcon } from './assets/dash-icons'
 import dayjs from 'dayjs'
 import { toggleFavorite } from '@/libs/fetch-api/favorite-records'
+import { PgButton } from './components-dash/ui/pg-button'
 
 export default function DashPage () {
   const searchParams = useSearchParams()
@@ -131,23 +132,19 @@ export default function DashPage () {
       </div>
 
       <div className='flex items-center justify-between mt-7 text-sm'>
-        <button
+        <PgButton
           type='button'
           disabled={currentPage === 1}
           onClick={() => updateQueryParams(Math.max(currentPage - 1, 1))}
-          className='px-4 py-1.5 bg-neutral-500/15 rounded-[5px] disabled:opacity-75 cursor-pointer disabled:cursor-not-allowed'
-        >
-          Previous
-        </button>
+          text='Previous'
+        />
         <h3>Page {currentPage} of {totalPages}</h3>
-        <button
+        <PgButton
           type='button'
           disabled={currentPage === totalPages}
           onClick={() => updateQueryParams(Math.min(currentPage + 1, totalPages))}
-          className='px-4 py-1.5 bg-neutral-500/15 rounded-[5px] disabled:opacity-75 cursor-pointer disabled:cursor-not-allowed'
-        >
-          Next
-        </button>
+          text='Next'
+        />
 
       </div>
     </main>

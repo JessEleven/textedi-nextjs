@@ -1,6 +1,6 @@
 'use client'
 
-import { BtnIcon } from '@/components/ui/button-icons'
+import { BtnBorderIcon } from '@/components/ui/button-icons'
 import NavItem from './nav-item'
 import { LayoutSidebarIcon, LayoutSidebarTwoIcon } from '../assets/dash-icons'
 import AppLogo from '@/components/ui/app-logo'
@@ -21,7 +21,8 @@ export default function Sidebar () {
               fontSize={20}
             />
           )}
-          <BtnIcon
+          <BtnBorderIcon
+            type='button'
             icon={collapsed ? <LayoutSidebarTwoIcon /> : <LayoutSidebarIcon />}
             ariaLabel='Layout sidebar'
             onClick={() => setCollapsed(!collapsed)}

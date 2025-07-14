@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-/* Button icon link */
-export function BtnIconLink ({ url, icon, ariaLabel }) {
+/* Button border icon link */
+export function BtnIconLink ({ url, ariaLabel, icon }) {
   return (
     <Link
       href={url}
@@ -13,13 +13,14 @@ export function BtnIconLink ({ url, icon, ariaLabel }) {
   )
 }
 
-/* Button icon */
-export function BtnIcon ({ icon, ariaLabel, onClick }) {
+/* Button border icon */
+export function BtnBorderIcon ({ type, ariaLabel, disabled, onClick, icon }) {
   return (
     <button
-      type='button'
+      type={type}
       aria-label={ariaLabel}
       className='btn-border-icon'
+      disabled={disabled}
       onClick={onClick}
     >
       {icon}

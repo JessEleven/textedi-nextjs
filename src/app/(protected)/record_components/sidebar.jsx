@@ -2,7 +2,7 @@
 
 import { BtnBorderIcon } from '@/components/ui/button-icons'
 import NavItem from './nav-item'
-import { LayoutSidebarIcon, LayoutSidebarTwoIcon } from '../assets/dash-icons'
+import { LayoutSidebarIcon, LayoutSidebarTwoIcon } from '../assets/record-icons'
 import AppLogo from '@/components/ui/app-logo'
 import { useSidebar } from '../context/sidebar-context'
 

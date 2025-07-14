@@ -1,5 +1,5 @@
-import { HomeIcon, SettingsIcon, StarIcon } from '../assets/dash-icons'
-import DocNav from './related-to-doc/doc-nav'
+import { LayoutListIcon, SettingsIcon, StarIcon } from '../assets/record-icons'
+import RecordDropdown from './record/record-dropdown'
 import { Item } from './ui/item'
 
 export default function NavItem () {
@@ -7,24 +7,24 @@ export default function NavItem () {
     <nav className='mt-7 space-y-2.5 text-sm'>
       {/* Page navigation */}
       <Item
-        href='/dash'
-        icon={<HomeIcon />}
-        label='Dashboard'
+        href='/home'
+        icon={<LayoutListIcon />}
+        label='Home'
       />
 
-      {/* Navigation container */}
-      <DocNav />
+      {/* Options menu */}
+      <RecordDropdown />
 
       {/* Page navigation */}
       <Item
-        href='/dash/favorites'
+        href='/favorites'
         icon={<StarIcon />}
         label='Favorites'
       />
 
       {/* Page navigation */}
       <Item
-        href='/dash/account'
+        href='/account'
         icon={<SettingsIcon />}
         label='Account'
       />

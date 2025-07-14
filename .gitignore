@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # In development
-/src/app/dash/record/
+/src/app/(protected)/(routes)/record/
 /src/app/api/recent-records/

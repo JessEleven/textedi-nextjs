@@ -2,11 +2,11 @@ import { useState } from 'react'
 import {
   ChevronDownIcon, ChevronUpIcon,
   FolderIcon, FolderOpenIcon
-} from '../../assets/dash-icons'
-import NewDoc from './new-doc'
+} from '../../assets/record-icons'
+import NewRecord from './new-record'
 import { useSidebar } from '../../context/sidebar-context'
 
-export default function DocNav () {
+export default function RecordDropdown () {
   const [open, setOpen] = useState(true)
   const { collapsed } = useSidebar()
 
@@ -19,7 +19,7 @@ export default function DocNav () {
         >
           <div className='flex items-center'>
             {open ? <FolderOpenIcon /> : <FolderIcon />}
-            {!collapsed && <span className='ml-1.5'>Documents</span>}
+            {!collapsed && <span className='ml-1.5'>My records</span>}
           </div>
           {!collapsed && (
             <>
@@ -37,8 +37,8 @@ export default function DocNav () {
             </div>
           )}
           <div className='w-full'>
-            <NewDoc />
-            {collapsed ? '---' : <h3 className='mt-2.5'>No document</h3>}
+            <NewRecord />
+            {collapsed ? '---' : <h3 className='mt-2.5'>No records</h3>}
           </div>
         </div>
       )}

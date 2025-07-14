@@ -31,7 +31,7 @@ export const LayoutSidebarTwoIcon = (props) => (
   </svg>
 )
 
-export const HomeIcon = (props) => (
+export const LayoutListIcon = (props) => (
   <svg
     width={16}
     height={16}
@@ -41,12 +41,12 @@ export const HomeIcon = (props) => (
     strokeWidth={2}
     strokeLinecap='round'
     strokeLinejoin='round'
-    className='icon icon-tabler icons-tabler-outline icon-tabler-home'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-layout-list'
     {...props}
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-    <path d='M5 12l-2 0l9 -9l9 9l-2 0' />
-    <path d='M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7' />
+    <path d='M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z' />
+    <path d='M4 14m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z' />
   </svg>
 )
 

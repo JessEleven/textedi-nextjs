@@ -33,7 +33,7 @@ export default async function UserSession () {
           ? (
             <>
               <li>
-                <BtnBgLink url='/dash' text='Dashboard' />
+                <BtnBgLink url='/home' text='Home' />
               </li>
             </>
             )

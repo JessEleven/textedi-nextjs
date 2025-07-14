@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { PlusIcon } from '../../assets/dash-icons'
+import { PlusIcon } from '../../assets/record-icons'
 import { useSidebar } from '../../context/sidebar-context'
 import { useRouter } from 'next/navigation'
 import { craeteRecord } from '@/libs/fetch-api/record'
@@ -22,7 +22,7 @@ export default function NewRecord () {
 
       if (res.success) {
         const recordId = res.data.id
-        route.push(`/dash/record/${recordId}`)
+        route.push(`/record/${recordId}`)
       }
     } catch (error) {
       console.error('Failed to create record:', error)

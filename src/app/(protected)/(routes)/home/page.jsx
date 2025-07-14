@@ -4,13 +4,13 @@ import { allRecords } from '@/libs/fetch-api/record'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { FileTextIcon, StarIcon } from './assets/dash-icons'
+import { FileTextIcon, StarIcon } from '../../assets/record-icons'
 import dayjs from 'dayjs'
 import { toggleFavorite } from '@/libs/fetch-api/favorite-records'
-import { PgButton } from './components-dash/ui/pg-button'
+import { PgButton } from '../../record_components/ui/pg-button'
 import { BtnBorderIcon } from '@/components/ui/button-icons'
 
-export default function DashPage () {
+export default function HomePage () {
   const searchParams = useSearchParams()
   const route = useRouter()
   const scrollRef = useRef()
@@ -30,7 +30,7 @@ export default function DashPage () {
       const params = new URLSearchParams()
       params.set('page', '1')
       params.set('limit', '10')
-      route.replace(`/dash?${params.toString()}`)
+      route.replace(`/home?${params.toString()}`)
     }
   }, [])
 
@@ -55,7 +55,7 @@ export default function DashPage () {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage)
     params.set('limit', limit)
-    route.push(`/dash?${params.toString()}`)
+    route.push(`/home?${params.toString()}`)
   }
 
   /* For the sidebar of the container */
@@ -93,7 +93,7 @@ export default function DashPage () {
         ${hasScrollbar ? 'pr-1.5' : ''}`}
       >
         {records.map((item) => (
-          <Link key={item.id} href={`/dash/record/${item.id}`} className='block group'>
+          <Link key={item.id} href={`/record/${item.id}`} className='block group'>
             <article className='flex items-center px-5 py-2.5 rounded-lg bg-neutral-500/15'>
               <div className='p-1.5 rounded-[5px] bg-stone-500/50'>
                 <FileTextIcon className='group-hover:text-fuchsia-500/60 transition-colors duration-300 ease-in-out' />

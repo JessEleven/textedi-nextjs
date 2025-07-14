@@ -11,7 +11,7 @@ export default function SignInPage () {
     try {
       await authClient.signIn.social({
         provider: 'github',
-        callbackURL: '/dash'
+        callbackURL: '/home'
       })
     } catch (error) {
       console.error('Unexpected error:', error)

@@ -1,6 +1,8 @@
 import { db } from '@/db/drizzle'
 import { record } from '@/db/schema'
 import { auth } from '@/libs/auth'
+import { patchPickFields, pickFields } from '@/utils/pick-fields'
+import { isValidNanoid } from '@/utils/validate-id'
 import { and, eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -21,7 +23,7 @@ export async function GET (req, { params }) {
     }
     const { id } = params
 
-    if (!id) {
+    if (!id || !isValidNanoid(id)) {
       return NextResponse.json({
         success: false,
         status_code: 401,
@@ -29,7 +31,7 @@ export async function GET (req, { params }) {
       }, { status: 401 })
     }
 
-    const recordById = await db.query.record
+    const result = await db.query.record
       .findFirst({
         where: and(
           eq(record.id, id),
@@ -38,7 +40,7 @@ export async function GET (req, { params }) {
         )
       })
 
-    if (!recordById) {
+    if (!result) {
       return NextResponse.json({
         success: false,
         status_code: 404,
@@ -51,7 +53,7 @@ export async function GET (req, { params }) {
       success: true,
       status_code: 200,
       message: 'Record successfully found',
-      data: recordById
+      data: pickFields(result)
     }, { status: 200 })
   } catch (error) {
     return NextResponse.json({
@@ -78,7 +80,7 @@ export async function PATCH (req, { params }) {
     }
     const { id } = params
 
-    if (!id) {
+    if (!id || !isValidNanoid(id)) {
       return NextResponse.json({
         success: false,
         status_code: 400,
@@ -88,22 +90,20 @@ export async function PATCH (req, { params }) {
     const { title, content } = await req.json()
     const updatedAt = new Date()
 
-    await db.update(record)
+    const result = await db.update(record)
       .set({ title, content, updatedAt })
       .where(and(
         eq(record.id, id),
         eq(record.userId, user.id),
         eq(record.favorite, false)
       ))
+    const pickResult = patchPickFields(result)
 
     return NextResponse.json({
       success: true,
       status_code: 200,
       message: 'The record updated successfully',
-      author: {
-        name: user.name,
-        email: user.email
-      }
+      data: pickResult
     }, { status: 200 })
   } catch (error) {
     return NextResponse.json({

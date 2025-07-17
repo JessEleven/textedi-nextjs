@@ -1,6 +1,8 @@
 import { db } from '@/db/drizzle'
 import { record } from '@/db/schema'
 import { auth } from '@/libs/auth'
+import { pickFields } from '@/utils/pick-fields'
+import { isValidNanoid } from '@/utils/validate-id'
 import { and, count, desc, eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -24,18 +26,8 @@ export async function GET (req) {
     const limit = parseInt(searchParams.get('limit')) || 10
     const offset = (page - 1) * limit
 
-    const pickFields = {
-      id: record.id,
-      title: record.title,
-      content: record.content,
-      favorite: record.favorite,
-      last_opened_at: record.lastOpenedAt,
-      created_at: record.createdAt,
-      updated_at: record.updatedAt
-    }
-
     const [favoriteRecords, total] = await Promise.all([
-      db.select(pickFields)
+      db.select()
         .from(record)
         .where(and(
           eq(record.userId, user.id),
@@ -78,6 +70,7 @@ export async function GET (req) {
         }
       }, { status: 200 })
     }
+    const results = favoriteRecords.map(pickFields)
 
     return NextResponse.json({
       success: true,
@@ -97,7 +90,7 @@ export async function GET (req) {
           next_url: page < totalPages ? buildLink(page + 1) : null,
           last_url: buildLink(totalPages)
         },
-        data: favoriteRecords
+        data: results
       }
     }, { status: 200 })
   } catch (error) {
@@ -125,6 +118,14 @@ export async function PATCH (req) {
     }
     const { id, favorite } = await req.json()
 
+    if (!id || !isValidNanoid(id)) {
+      return NextResponse.json({
+        success: false,
+        status_code: 401,
+        message: 'ID is missing to toggle record to favorite'
+      }, { status: 401 })
+    }
+
     const recordExists = await db.select()
       .from(record)
       .where(and(
@@ -132,11 +133,11 @@ export async function PATCH (req) {
         eq(record.userId, user.id)
       ))
 
-    if (!recordExists.length) {
+    if (!recordExists) {
       return NextResponse.json({
         success: false,
         status_code: 404,
-        message: 'Record not found or not owned by user'
+        message: 'Record not found'
       }, { status: 404 })
     }
 
@@ -151,9 +152,8 @@ export async function PATCH (req) {
       success: true,
       status_code: 200,
       message: `The record was ${favorite ? 'marked as' : 'removed from'} favorite`,
-      author: {
-        name: user.name,
-        email: user.email
+      data: {
+        fovorite_record: true
       }
     }, { status: 200 })
   } catch (error) {

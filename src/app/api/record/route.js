@@ -2,6 +2,8 @@ import { db } from '@/db/drizzle'
 import { record } from '@/db/schema'
 import { auth } from '@/libs/auth'
 import { generateId } from '@/utils/generate-id'
+import { pickFields } from '@/utils/pick-fields'
+import { isValidNanoid } from '@/utils/validate-id'
 import { and, count, desc, eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -25,17 +27,8 @@ export async function GET (req) {
     const limit = parseInt(searchParams.get('limit')) || 10
     const offset = (page - 1) * limit
 
-    const pickFields = {
-      id: record.id,
-      title: record.title,
-      content: record.content,
-      last_opened_at: record.lastOpenedAt,
-      created_at: record.createdAt,
-      updated_at: record.updatedAt
-    }
-
     const [records, total] = await Promise.all([
-      db.select(pickFields)
+      db.select()
         .from(record)
         .where(and(
           eq(record.userId, user.id),
@@ -78,6 +71,7 @@ export async function GET (req) {
         }
       }, { status: 200 })
     }
+    const results = records.map(pickFields)
 
     return NextResponse.json({
       success: true,
@@ -97,7 +91,7 @@ export async function GET (req) {
           next_url: page < totalPages ? buildLink(page + 1) : null,
           last_url: buildLink(totalPages)
         },
-        data: records
+        data: results
       }
     }, { status: 200 })
   } catch (error) {
@@ -106,6 +100,14 @@ export async function GET (req) {
       status_code: 500,
       message: error?.message || 'Unexpected server error'
     }, { status: 500 })
+  }
+}
+
+function postPickFields (record) {
+  return {
+    id: record.id,
+    title: record.title,
+    created_at: record.createdAt
   }
 }
 
@@ -124,12 +126,6 @@ export async function POST (req) {
       }, { status: 401 })
     }
     const { title } = await req.json()
-
-    const pickFields = {
-      id: record.id,
-      title: record.title,
-      created_at: record.createdAt
-    }
     const nanoid = generateId()
 
     const result = await db.insert(record)
@@ -138,7 +134,7 @@ export async function POST (req) {
         title,
         userId: user.id
       })
-      .returning(pickFields)
+      .returning(postPickFields)
 
     return NextResponse.json({
       success: true,
@@ -171,12 +167,12 @@ export async function DELETE (req) {
     }
     const { id } = await req.json()
 
-    if (!id) {
+    if (!id || !isValidNanoid(id)) {
       return NextResponse.json({
         success: false,
-        status_code: 404,
+        status_code: 400,
         message: 'ID is missing to delete record'
-      }, { status: 404 })
+      }, { status: 400 })
     }
 
     await db.delete(record)

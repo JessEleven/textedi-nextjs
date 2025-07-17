@@ -1,0 +1,115 @@
+import { db } from '@/db/drizzle'
+import { record } from '@/db/schema'
+import { auth } from '@/libs/auth'
+import { and, eq } from 'drizzle-orm'
+import { headers } from 'next/headers'
+import { NextResponse } from 'next/server'
+
+export async function GET (req, { params }) {
+  try {
+    const data = await auth.api.getSession({
+      headers: await headers()
+    })
+    const user = data?.user
+
+    if (!user) {
+      return NextResponse.json({
+        success: false,
+        status_code: 400,
+        message: 'User is not authenticated'
+      }, { status: 400 })
+    }
+    const { id } = params
+
+    if (!id) {
+      return NextResponse.json({
+        success: false,
+        status_code: 401,
+        message: 'ID is missing to get record'
+      }, { status: 401 })
+    }
+
+    const recordById = await db.query.record
+      .findFirst({
+        where: and(
+          eq(record.id, id),
+          eq(record.userId, user.id),
+          eq(record.favorite, false)
+        )
+      })
+
+    if (!recordById) {
+      return NextResponse.json({
+        success: false,
+        status_code: 404,
+        message: 'Record not found',
+        data: []
+      }, { status: 404 })
+    }
+
+    return NextResponse.json({
+      success: true,
+      status_code: 200,
+      message: 'Record successfully found',
+      data: recordById
+    }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      status_code: 500,
+      message: error?.message || 'Unexpected server error'
+    }, { status: 500 })
+  }
+}
+
+export async function PATCH (req, { params }) {
+  try {
+    const data = await auth.api.getSession({
+      headers: await headers()
+    })
+    const user = data?.user
+
+    if (!user) {
+      return NextResponse.json({
+        success: false,
+        status_code: 401,
+        message: 'User is not authenticated'
+      }, { status: 401 })
+    }
+    const { id } = params
+
+    if (!id) {
+      return NextResponse.json({
+        success: false,
+        status_code: 400,
+        message: 'ID is missing to update record'
+      }, { status: 400 })
+    }
+    const { title, content } = await req.json()
+    const updatedAt = new Date()
+
+    await db.update(record)
+      .set({ title, content, updatedAt })
+      .where(and(
+        eq(record.id, id),
+        eq(record.userId, user.id),
+        eq(record.favorite, false)
+      ))
+
+    return NextResponse.json({
+      success: true,
+      status_code: 200,
+      message: 'The record updated successfully',
+      author: {
+        name: user.name,
+        email: user.email
+      }
+    }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      status_code: 500,
+      message: error?.message || 'Unexpected server error'
+    }, { status: 500 })
+  }
+}

@@ -219,3 +219,61 @@ export const TrashIcon = (props) => (
     <path d='M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3' />
   </svg>
 )
+
+export const RefreshIcon = (props) => (
+  <svg
+    width={20}
+    height={20}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-refresh'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4' />
+    <path d='M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4' />
+  </svg>
+)
+
+export const SearchIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-search'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />
+    <path d='M21 21l-6 -6' />
+  </svg>
+)
+
+export const AlertTriangleIcon = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth={2}
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='icon icon-tabler icons-tabler-outline icon-tabler-alert-triangle'
+    {...props}
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M12 9v4' />
+    <path d='M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z' />
+    <path d='M12 16h.01' />
+  </svg>
+)

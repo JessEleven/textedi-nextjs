@@ -7,7 +7,7 @@ import { and, eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-export async function GET (req, { params }) {
+export async function GET (req) {
   try {
     const data = await auth.api.getSession({
       headers: await headers()
@@ -21,7 +21,7 @@ export async function GET (req, { params }) {
         message: 'User is not authenticated'
       }, { status: 400 })
     }
-    const { id } = params
+    const id = req.nextUrl.pathname.split('/').pop()
 
     if (!id || !isValidNanoid(id)) {
       return NextResponse.json({

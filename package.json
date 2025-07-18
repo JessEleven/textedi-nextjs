@@ -1,7 +1,7 @@
 {
   "name": "textedi-nextjs",
   "description": "A simple rich text editor.",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 4757",

@@ -121,37 +121,32 @@ export async function PATCH (req) {
     if (!id || !isValidNanoid(id)) {
       return NextResponse.json({
         success: false,
-        status_code: 401,
+        status_code: 400,
         message: 'ID is missing to toggle record to favorite'
-      }, { status: 401 })
+      }, { status: 400 })
     }
 
-    const recordExists = await db.select()
-      .from(record)
-      .where(and(
-        eq(record.id, id),
-        eq(record.userId, user.id)
-      ))
-
-    if (!recordExists) {
-      return NextResponse.json({
-        success: false,
-        status_code: 404,
-        message: 'Record not found'
-      }, { status: 404 })
-    }
-
-    await db.update(record)
+    /* To toggle to favorite */
+    const result = await db.update(record)
       .set({ favorite })
       .where(and(
         eq(record.id, id),
         eq(record.userId, user.id)
       ))
 
+    if (result.rowCount === 0) {
+      return NextResponse.json({
+        success: false,
+        status_code: 404,
+        message: 'Record not found'
+      }, { status: 404 })
+    }
+    const toggle = `The record was ${favorite ? 'marked as' : 'removed from'} favorite`
+
     return NextResponse.json({
       success: true,
       status_code: 200,
-      message: `The record was ${favorite ? 'marked as' : 'removed from'} favorite`,
+      message: toggle,
       data: {
         fovorite_record: true
       }

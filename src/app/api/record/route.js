@@ -175,11 +175,21 @@ export async function DELETE (req) {
       }, { status: 400 })
     }
 
-    await db.delete(record)
+    const result = await db.delete(record)
       .where(and(
         eq(record.id, id),
-        eq(record.userId, user.id)
+        eq(record.userId, user.id),
+        eq(record.favorite, false)
       ))
+
+    if (result.rowCount === 0) {
+      return NextResponse.json({
+        success: false,
+        status_code: 404,
+        message: 'Record not found',
+        data: []
+      }, { status: 404 })
+    }
 
     return NextResponse.json({
       success: true,

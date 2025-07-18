@@ -99,6 +99,15 @@ export async function PATCH (req, { params }) {
       ))
     const pickResult = patchPickFields(result)
 
+    if (result.rowCount === 0) {
+      return NextResponse.json({
+        success: false,
+        status_code: 404,
+        message: 'Record not found',
+        data: []
+      }, { status: 404 })
+    }
+
     return NextResponse.json({
       success: true,
       status_code: 200,

@@ -27,11 +27,57 @@ export const craeteRecord = async (formData) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...formData })
     })
-    const result = res.json()
+    const result = await res.json()
     // console.log('Response from API', result)
+
     return result
   } catch (error) {
     // console.error('Error creating record:', error)
+    return {
+      success: false,
+      error: error?.message || 'Unknown error'
+    }
+  }
+}
+
+export const getRecordById = async (id) => {
+  try {
+    const res = await fetch(`/api/record/${id}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const result = await res.json()
+    // console.log('Response from API', result)
+
+    if (!res.ok || !result.success) {
+      throw new Error(result.error || 'Failed to fetch record')
+    }
+    return result.data
+  } catch (error) {
+    // console.error('Error fetching record:', error)
+    return {
+      success: false,
+      error: error?.message || 'Unknown error'
+    }
+  }
+}
+
+export const updateRecord = async ({ id, formData }) => {
+  try {
+    const res = await fetch(`/api/record/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...formData })
+    })
+    const result = await res.json()
+    // console.log('Response from API', result)
+
+    if (!res.ok || !result.success) {
+      throw new Error(result.error || 'Failed to update record')
+    }
+    return result.data
+  } catch (error) {
+    // console.error('Error fetching update record:', error)
     return {
       success: false,
       error: error?.message || 'Unknown error'

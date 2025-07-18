@@ -129,7 +129,7 @@ export default function FavoritesPage () {
         ${hasScrollbar ? 'pr-1.5' : ''}`}
         >
           {favRecords.map((item) => (
-            <Link key={item.id} href={`/record/${item.id}`} className='block group'>
+            <Link key={item.id} href={`/record/${item.id}?from=fav`} className='block group'>
               <article className='flex items-center px-5 py-2.5 rounded-lg bg-neutral-500/15'>
                 <div className='p-1.5 rounded-[5px] bg-stone-500/50'>
                   <FileTextIcon className='group-hover:text-fuchsia-500/60 transition-colors duration-300 ease-in-out' />

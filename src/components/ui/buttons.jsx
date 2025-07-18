@@ -19,9 +19,9 @@ export function BtnBorderLink ({ url, text }) {
 }
 
 /* Button with background */
-export function BtnBg ({ text, both }) {
+export function BtnBg ({ type, text, both }) {
   return (
-    <>
+    <button type={type}>
       {text && (
         <h3 className='px-4 py-[8.5px] btn-bg'>{text}</h3>
       )}
@@ -31,7 +31,7 @@ export function BtnBg ({ text, both }) {
           <span>{both.text}</span>
         </div>
       )}
-    </>
+    </button>
   )
 }
 

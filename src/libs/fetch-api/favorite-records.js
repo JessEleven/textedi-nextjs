@@ -20,6 +20,51 @@ export const allFavoriteRecords = async (page = 1, limit = 10) => {
   }
 }
 
+export const getFavoriteRecordById = async (id) => {
+  try {
+    const res = await fetch(`/api/favorite-records/${id}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const result = await res.json()
+    // console.log('Response from API', result)
+
+    if (!res.ok || !result.success) {
+      throw new Error(result.error || 'Failed to fetch favorite record')
+    }
+    return result.data
+  } catch (error) {
+    // console.error('Error fetching record:', error)
+    return {
+      success: false,
+      error: error?.message || 'Unknown error'
+    }
+  }
+}
+
+export const updateFavoriteRecord = async ({ id, formData }) => {
+  try {
+    const res = await fetch(`/api/favorite-records/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...formData })
+    })
+    const result = await res.json()
+    // console.log('Response from API', result)
+
+    if (!res.ok || !result.success) {
+      throw new Error(result.error || 'Failed to update favorite record')
+    }
+    return result.data
+  } catch (error) {
+    // console.error('Error fetching update favorite record:', error)
+    return {
+      success: false,
+      error: error?.message || 'Unknown error'
+    }
+  }
+}
+
 export const toggleFavorite = async ({ id, favorite, onSuccess }) => {
   try {
     const res = await fetch('/api/favorite-records', {

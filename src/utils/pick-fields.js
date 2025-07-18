@@ -14,6 +14,8 @@ export function patchPickFields (record) {
   return {
     id: record.id,
     title: record.title,
-    content: record.content
+    content: record.content,
+    created_at: record.createdAt,
+    updated_at: record.updatedAt
   }
 }

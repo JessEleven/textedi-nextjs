@@ -103,6 +103,7 @@ export async function GET (req) {
   }
 }
 
+// Field selection when creating a new record
 function postPickFields (record) {
   return {
     id: record.id,
@@ -127,20 +128,24 @@ export async function POST (req) {
     }
     const { title } = await req.json()
     const nanoid = generateId()
+    const now = new Date()
 
     const result = await db.insert(record)
       .values({
         id: nanoid,
         title,
-        userId: user.id
+        userId: user.id,
+        createdAt: now
       })
-      .returning(postPickFields)
+      .returning()
+
+    const pickResult = result.map(postPickFields)
 
     return NextResponse.json({
       success: true,
       status_code: 201,
       message: 'Record created successfully',
-      data: result[0]
+      data: pickResult
     }, { status: 201 })
   } catch (error) {
     return NextResponse.json({
@@ -181,8 +186,9 @@ export async function DELETE (req) {
         eq(record.userId, user.id),
         eq(record.favorite, false)
       ))
+      .returning()
 
-    if (result.rowCount === 0) {
+    if (!result.length) {
       return NextResponse.json({
         success: false,
         status_code: 404,

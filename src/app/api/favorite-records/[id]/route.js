@@ -48,12 +48,13 @@ export async function GET (req) {
         data: []
       }, { status: 404 })
     }
+    const pickResult = pickFields(result)
 
     return NextResponse.json({
       success: true,
       status_code: 200,
       message: 'Favorite record successfully found',
-      data: pickFields(result)
+      data: pickResult
     }, { status: 200 })
   } catch (error) {
     return NextResponse.json({
@@ -64,7 +65,7 @@ export async function GET (req) {
   }
 }
 
-export async function PATCH (req, { params }) {
+export async function PATCH (req) {
   try {
     const data = await auth.api.getSession({
       headers: await headers()
@@ -78,7 +79,7 @@ export async function PATCH (req, { params }) {
         message: 'User is not authenticated'
       }, { status: 401 })
     }
-    const { id } = params
+    const id = req.nextUrl.pathname.split('/').pop()
 
     if (!id || !isValidNanoid(id)) {
       return NextResponse.json({
@@ -97,9 +98,11 @@ export async function PATCH (req, { params }) {
         eq(record.userId, user.id),
         eq(record.favorite, true)
       ))
-    const pickResult = patchPickFields(result)
+      .returning()
 
-    if (result.rowCount === 0) {
+    const pickResult = result.map(patchPickFields)
+
+    if (!result.length) {
       return NextResponse.json({
         success: false,
         status_code: 404,

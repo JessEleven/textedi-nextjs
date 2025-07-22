@@ -133,12 +133,14 @@ export async function PATCH (req) {
         eq(record.id, id),
         eq(record.userId, user.id)
       ))
+      .returning()
 
-    if (result.rowCount === 0) {
+    if (!result.length) {
       return NextResponse.json({
         success: false,
         status_code: 404,
-        message: 'Record not found'
+        message: 'Record not found',
+        data: []
       }, { status: 404 })
     }
     const toggle = `The record was ${favorite ? 'marked as' : 'removed from'} favorite`
@@ -148,7 +150,9 @@ export async function PATCH (req) {
       status_code: 200,
       message: toggle,
       data: {
-        fovorite_record: true
+        id: result[0].id,
+        title: result[0].title,
+        toggled_record: result[0].favorite
       }
     }, { status: 200 })
   } catch (error) {

@@ -15,7 +15,7 @@ export default function ResourceQuickActions ({ loading, handleRefresh }) {
       const res = await craeteRecord(formData)
 
       if (res.success) {
-        const recordId = res.data.id
+        const recordId = res.data[0].id
         route.push(`/record/${recordId}`)
       }
     } catch (error) {

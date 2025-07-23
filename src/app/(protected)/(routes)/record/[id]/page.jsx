@@ -3,7 +3,7 @@
 import { BtnBg } from '@/components/ui/buttons'
 import { getFavoriteRecordById, updateFavoriteRecord } from '@/libs/fetch-api/favorite-records'
 import { getRecordById, updateRecord } from '@/libs/fetch-api/record'
-import dayjs from 'dayjs'
+import { dateFormat } from '@/utils/date-format'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
@@ -12,7 +12,8 @@ export default function RecordPage () {
   const route = useRouter()
   const titleRef = useRef()
   const [formData, setFormData] = useState({ title: '', content: '' })
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState({ updated_at: '' })
+  const [error, setError] = useState(false)
 
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
@@ -20,24 +21,21 @@ export default function RecordPage () {
   useEffect(() => {
     (async () => {
       try {
-        const result = from === 'fav'
+        const res = from === 'fav'
           ? await getFavoriteRecordById(id)
           : await getRecordById(id)
 
-        setFormData({ title: result?.title, content: result?.content })
-        if (result?.updated_at) {
-          setDate(result.updated_at)
-        }
-        console.log({ daaaa: date })
+        setFormData({ title: res.title, content: res.content })
+        setDate(res.updated_at || '')
       } catch (error) {
-
+        setError(error)
       }
     })()
-  }, [id, from, setFormData])
+  }, [id, from])
 
+  // To auto-increase the input
   useEffect(() => {
     if (titleRef.current) {
-    // Forzamos el ancho al scrollWidth + padding (16px)
       const scrollW = titleRef.current.scrollWidth
       titleRef.current.style.width = `${scrollW}px`
     }
@@ -51,11 +49,13 @@ export default function RecordPage () {
     e.preventDefault()
 
     try {
-      from === 'fav'
-        ? await updateFavoriteRecord({ id, formData })
-        : await updateRecord({ id, formData })
+      const updateData = from === 'fav'
+        ? updateFavoriteRecord
+        : updateRecord
+      await updateData({ id, formData })
 
       route.push(from === 'fav' ? '/favorites' : '/home')
+      route.refresh()
     } catch (error) {
       // console.error('Failed to update record:', error)
     }
@@ -82,8 +82,7 @@ export default function RecordPage () {
                 {formData.title.length}/50
               </span>
             </div>
-            <p className='pl-4'>{dayjs(date).format('DD/MM/YYYY HH:mm:ss a')}
-            </p>
+            <p className='pl-4 mt-1 text-[13px]'>{dateFormat(date)}</p>
           </div>
           <BtnBg
             type='submit'

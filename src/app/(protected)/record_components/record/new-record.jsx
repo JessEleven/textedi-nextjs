@@ -17,11 +17,12 @@ export default function NewRecord () {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     try {
       const res = await craeteRecord(formData)
 
       if (res.success) {
-        const recordId = res.data.id
+        const recordId = res.data[0].id
         route.push(`/record/${recordId}`)
       }
     } catch (error) {
@@ -36,6 +37,7 @@ export default function NewRecord () {
           <input
             type='text'
             name='title'
+            spellCheck={false}
             className='w-full h-8 p-4 outline-none rounded-[5px] border border-neutral-600 focus:bg-slate-500/15'
             value={formData.title}
             onChange={handleChange}

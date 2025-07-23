@@ -7,5 +7,6 @@
 const NANOID_REGEX = /^[A-Za-z0-9]{7}-[A-Za-z0-9]{7}-[A-Za-z0-9]{7}$/
 
 export function isValidNanoid (id) {
-  return NANOID_REGEX.test(id)
+  const validateRegex = NANOID_REGEX.test(id)
+  return validateRegex
 }

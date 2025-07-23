@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { FileTextIcon, StarIcon, TrashIcon } from '../../assets/record-icons'
-import dayjs from 'dayjs'
 import { toggleFavorite } from '@/libs/fetch-api/favorite-records'
 import { PgButton } from '../../record_components/ui/pg-button'
 import { BtnBorderIcon } from '@/components/ui/button-icons'
@@ -13,6 +12,7 @@ import ResourceQuickActions from '../../record_components/ui/resource-quick-acti
 import ResourceOverview from '../../record_components/ui/resource-overview'
 import EmptyList from '../../record_components/ui/empty-list'
 import ErrorFetching from '../../record_components/ui/error-fetching'
+import { dateFormat } from '@/utils/date-format'
 
 export default function HomePage () {
   const searchParams = useSearchParams()
@@ -138,9 +138,7 @@ export default function HomePage () {
                 <div className='flex items-center justify-between w-full'>
                   <div className='flex flex-col ml-2.5'>
                     <h3 className='text-base font-medium'>{item.title}</h3>
-                    <p className='text-[13px]'>
-                      {dayjs(item.createdAt).format('MMMM DD, YYYY • HH:MM:ss a')}
-                    </p>
+                    <p className='text-[13px]'>{dateFormat(item.created_at)}</p>
                   </div>
 
                   <div className='flex items-center gap-x-2.5'>

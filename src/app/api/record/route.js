@@ -129,13 +129,15 @@ export async function POST (req) {
     const { title } = await req.json()
     const nanoid = generateId()
     const now = new Date()
+    const alsoNow = new Date()
 
     const result = await db.insert(record)
       .values({
         id: nanoid,
         title,
         userId: user.id,
-        createdAt: now
+        createdAt: now,
+        updatedAt: alsoNow
       })
       .returning()
 

@@ -14,6 +14,7 @@ export default function RecordPage () {
   const [formData, setFormData] = useState({ title: '', content: '' })
   const [date, setDate] = useState({ updated_at: '' })
   const [error, setError] = useState(false)
+  const [originalData, setOriginalData] = useState({ title: '', content: '' })
 
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
@@ -24,8 +25,10 @@ export default function RecordPage () {
         const res = from === 'fav'
           ? await getFavoriteRecordById(id)
           : await getRecordById(id)
+        const data = { title: res.title, content: res.content }
 
-        setFormData({ title: res.title, content: res.content })
+        setFormData(data)
+        setOriginalData(data)
         setDate(res.updated_at || '')
       } catch (error) {
         setError(error)
@@ -48,13 +51,19 @@ export default function RecordPage () {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    const redirectAt = from === 'fav' ? '/favorites' : '/home'
     try {
+      if (
+        formData.title === originalData.title ||
+        formData.content === originalData.content
+      ) return route.push(redirectAt)
+
       const updateData = from === 'fav'
         ? updateFavoriteRecord
         : updateRecord
       await updateData({ id, formData })
 
-      route.push(from === 'fav' ? '/favorites' : '/home')
+      route.push(redirectAt)
       route.refresh()
     } catch (error) {
       // console.error('Failed to update record:', error)

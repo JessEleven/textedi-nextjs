@@ -6,6 +6,7 @@ import { getRecordById, updateRecord } from '@/libs/fetch-api/record'
 import { dateFormat } from '@/utils/date-format'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import TipTap from '../tip-tap'
 
 export default function RecordPage () {
   const { id } = useParams()
@@ -14,7 +15,7 @@ export default function RecordPage () {
   const [formData, setFormData] = useState({ title: '', content: '' })
   const [date, setDate] = useState({ updated_at: '' })
   const [error, setError] = useState(false)
-  const [originalData, setOriginalData] = useState({ title: '', content: '' })
+  const [originalData, setOriginalData] = useState({ content: '' })
 
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
@@ -54,7 +55,7 @@ export default function RecordPage () {
     const redirectAt = from === 'fav' ? '/favorites' : '/home'
     try {
       if (
-        formData.title === originalData.title ||
+        formData.title === originalData.title &&
         formData.content === originalData.content
       ) return route.push(redirectAt)
 
@@ -69,6 +70,11 @@ export default function RecordPage () {
       // console.error('Failed to update record:', error)
     }
   }
+
+  const hasEdited = (
+    formData.title !== originalData.title ||
+  formData.content !== originalData.content
+  )
 
   return (
     <main>
@@ -98,6 +104,13 @@ export default function RecordPage () {
             text='Update'
           />
         </div>
+
+        <TipTap
+          value={formData.content}
+          onChange={(html) => setFormData({ ...formData, content: html })}
+          hasEdited={hasEdited}
+          initialContent={originalData.content}
+        />
       </form>
     </main>
   )

@@ -1,7 +1,7 @@
 {
   "name": "textedi-nextjs",
   "description": "A simple rich text editor.",
-  "version": "0.23.6",
+  "version": "0.24.6",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 4757",
@@ -11,15 +11,28 @@
     "secret": "npx @better-auth/cli@latest secret",
     "db:schema": "npx @better-auth/cli generate --config src/libs/auth.js",
     "db:studio": "npx drizzle-kit studio",
-    "db:push": "npx drizzle-kit push && npx drizzle-kit generate"
+    "db:push": "npx drizzle-kit push && npx drizzle-kit generate",
+    "async": "pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.1.11",
+    "@tailwindcss/typography": "0.5.16",
+    "@tiptap/core": "3.0.7",
+    "@tiptap/extension-code-block-lowlight": "3.0.7",
+    "@tiptap/extension-highlight": "3.0.7",
+    "@tiptap/extension-placeholder": "3.0.7",
+    "@tiptap/extension-text-align": "3.0.7",
+    "@tiptap/extension-underline": "3.0.7",
+    "@tiptap/pm": "3.0.7",
+    "@tiptap/react": "3.0.7",
+    "@tiptap/starter-kit": "3.0.7",
     "better-auth": "1.2.12",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "dotenv": "17.0.1",
     "drizzle-orm": "0.44.2",
+    "highlight.js": "11.11.1",
+    "lowlight": "3.3.0",
     "nanoid": "5.1.5",
     "next": "15.3.5",
     "postcss": "8.5.6",

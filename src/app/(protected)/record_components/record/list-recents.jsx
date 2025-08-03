@@ -1,29 +1,17 @@
 'use client'
 
-import { allRecentRecords } from '@/libs/fetch-api/recent-records'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import { FileTextIcon, StarIcon } from '../../assets/record-icons'
 import { useSidebar } from '../../context/sidebar-context'
+import { useRecentRecords } from '../../context/recent-records-context'
 
 export default function ListRecents () {
-  const [recent, setRecent] = useState([])
   const { collapsed } = useSidebar()
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await allRecentRecords()
-        setRecent(res)
-      } catch (error) {
-        // console.log('Failed to get the recent record', error)
-      }
-    })()
-  }, [])
+  const { recents } = useRecentRecords()
 
   return (
     <div className={`${!collapsed && 'mt-2.5'} space-y-2.5`}>
-      {recent?.map((item) => (
+      {recents?.map((item) => (
         <Link
           key={item.id}
           href={item.favorite === true ? `/record/${item.id}?from=fav` : `/record/${item.id}`}

@@ -8,6 +8,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import TipTap from '../tip-tap'
 import { updateToRecents } from '@/libs/fetch-api/recent-records'
+import { useRecentRecords } from '@/app/(protected)/context/recent-records-context'
 
 export default function RecordPage () {
   const { id } = useParams()
@@ -17,6 +18,7 @@ export default function RecordPage () {
   const [date, setDate] = useState({ updated_at: '' })
   const [error, setError] = useState(false)
   const [originalData, setOriginalData] = useState({ content: '' })
+  const { refreshRecents } = useRecentRecords()
 
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
@@ -25,11 +27,12 @@ export default function RecordPage () {
     (async () => {
       try {
         await updateToRecents({ id })
+        await refreshRecents()
       } catch (error) {
         // console.error('Failed to update recent records:', error)
       }
     })()
-  }, [id])
+  }, [id, refreshRecents])
 
   useEffect(() => {
     (async () => {

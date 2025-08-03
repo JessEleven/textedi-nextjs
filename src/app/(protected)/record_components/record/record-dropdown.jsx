@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import {
   ChevronDownIcon, ChevronUpIcon,
@@ -5,6 +7,7 @@ import {
 } from '../../assets/record-icons'
 import NewRecord from './new-record'
 import { useSidebar } from '../../context/sidebar-context'
+import ListRecents from './list-recents'
 
 export default function RecordDropdown () {
   const [open, setOpen] = useState(true)
@@ -30,15 +33,15 @@ export default function RecordDropdown () {
       </button>
 
       {open && (
-        <div className='flex gap-[5px] mt-[1.5px]'>
+        <div className={`${!collapsed && 'flex mt-[1.5px]'}`}>
           {!collapsed && (
             <div className='flex flex-col items-center'>
               <div className='h-full border-l border-l-neutral-600' />
             </div>
           )}
-          <div className='w-full'>
+          <div className={`${!collapsed && 'w-full pl-2.5'}`}>
             <NewRecord />
-            {collapsed ? '---' : <h3 className='mt-2.5'>No records</h3>}
+            <ListRecents />
           </div>
         </div>
       )}

@@ -39,7 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# In development
-/src/app/(protected)/record_components/record/list-recents.jsx
-/src/libs/fetch-api/recent-records.js

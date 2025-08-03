@@ -7,6 +7,7 @@ import { dateFormat } from '@/utils/date-format'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import TipTap from '../tip-tap'
+import { updateToRecents } from '@/libs/fetch-api/recent-records'
 
 export default function RecordPage () {
   const { id } = useParams()
@@ -19,6 +20,16 @@ export default function RecordPage () {
 
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await updateToRecents({ id })
+      } catch (error) {
+        // console.error('Failed to update recent records:', error)
+      }
+    })()
+  }, [id])
 
   useEffect(() => {
     (async () => {

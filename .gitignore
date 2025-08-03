@@ -41,4 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # In development
-/src/app/api/recent-records/
+/src/app/(protected)/record_components/record/list-recents.jsx
+/src/libs/fetch-api/recent-records.js

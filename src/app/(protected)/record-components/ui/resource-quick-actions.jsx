@@ -1,3 +1,5 @@
+'use client'
+
 import { craeteRecord } from '@/libs/fetch-api/record'
 import { PlusIcon, RefreshIcon, SearchIcon } from '../../assets/record-icons'
 import { useRouter } from 'next/navigation'

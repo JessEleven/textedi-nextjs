@@ -1,6 +1,6 @@
 'use client'
 
-import Sidebar from './record_components/sidebar'
+import Sidebar from './record-components/sidebar'
 import { SidebarProvider } from './context/sidebar-context'
 import { Suspense } from 'react'
 import { RecentRecordsProvider } from './context/recent-records-context'
